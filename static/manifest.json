@@ -1,0 +1,22 @@
+{
+	"background_color": "#ffffff",
+	"theme_color": "#303F9F",
+	"name": "Mathlify-test",
+	"short_name": "Mathlify-test",
+	"display": "standalone",
+	"version": "0.0.1",
+	"description": "a mathematics application",
+	"start_url": "https://mathlify-test.vercel.app/",
+	"icons": [
+		{
+			"src": "logo-192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "logo-512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	]
+}
