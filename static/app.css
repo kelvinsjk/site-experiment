@@ -1,0 +1,7 @@
+body.light {
+  --primary: goldenrod;
+  --on-primary: black;
+}
+a:not(.button) {
+  text-decoration: underline;
+}

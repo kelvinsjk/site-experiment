@@ -113,8 +113,10 @@ sw.addEventListener("message", async (event) => {
 		const cache = await caches.open(CACHE);
 		const keys = await cache.keys();
 		console.log("get cached 4", keys);
-		const cachedFiles = prerendered.filter((file) =>
-			keys.map((key) => new URL(key.url).pathname).includes(file),
+		const cachedFiles = prerendered.filter(
+			(file) =>
+				keys.map((key) => new URL(key.url).pathname).includes(file) &&
+				file !== "/error",
 		);
 		event.source?.postMessage({
 			action: "getCachedFiles",
