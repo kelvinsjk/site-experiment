@@ -9,32 +9,34 @@
 
 <h1>{data.topic}</h1>
 <main>
-  <div>
+  <div class="techniques-container">
     <h2>Key techniques</h2>
-    <ul>
-      {#each data.summary as item, i}
-        <li>
-          <div class="point">
-            <button
-              class="square"
-              class:border={idx !== i}
-              onclick={() => {
-                idx = i;
-              }}
-              aria-label="select point"
-              disabled={item.example === undefined}
-            >
-              <span></span>
-            </button>
-            <Djot djot={item.point} />
-          </div>
-        </li>
-      {/each}
-    </ul>
+    <div class="techniques-list-container">
+      <ul>
+        {#each data.summary as item, i}
+          <li>
+            <div class="point">
+              <button
+                class="square"
+                class:border={idx !== i}
+                onclick={() => {
+                  idx = i;
+                }}
+                aria-label="select point"
+                disabled={item.example === undefined}
+              >
+                <span></span>
+              </button>
+              <Djot djot={item.point} />
+            </div>
+          </li>
+        {/each}
+      </ul>
+    </div>
   </div>
-  <div>
+  <div class="example-container">
     <h2>Example</h2>
-    <div>
+    <div class="example">
       <h3 class="small"><Djot djot={data.summary[idx].point} /></h3>
       <Djot djot={data.summary[idx].example ?? ""} />
     </div>
