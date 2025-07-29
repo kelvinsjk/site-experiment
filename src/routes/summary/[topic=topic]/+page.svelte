@@ -1,10 +1,17 @@
 <script lang="ts">
   import { Djot } from "svelte-djot-math";
-  import type { PageProps } from "./$types";
+  import type { PageProps, Snapshot } from "./$types";
 
   let { data }: PageProps = $props();
 
   let idx = $state<number>(data.summary.findIndex((item) => item.example) ?? 0);
+
+  export const snapshot: Snapshot<number> = {
+    capture: () => idx,
+    restore: (value: number) => {
+      idx = value;
+    },
+  };
 </script>
 
 <h1>{data.topic}</h1>
@@ -37,7 +44,9 @@
   <div class="example-container">
     <h2>Example</h2>
     <div class="example">
-      <h3 class="small"><Djot djot={data.summary[idx].point} /></h3>
+      <h3 class="small">
+        <Djot djot={data.summary[idx].shortPoint ?? data.summary[idx].point} />
+      </h3>
       <Djot djot={data.summary[idx].example ?? ""} />
     </div>
   </div>

@@ -51,7 +51,7 @@ distinct objects in a *circle*.`,
 	{
 		point: x`$\\boxed{\\frac{n!}{r_1! \\dotsm r_k!}}$ ways to rearrange $n$ 
 objects with $r_i$ *identical*.`,
-		shortPoint: x`Rearranging identical objects`,
+		shortPoint: x`Rearranging *identical* objects.`,
 		example: x`How many ways are there to rearrange the letters
 in ABBBCCDEEE?
 
@@ -76,8 +76,8 @@ We treat the 3 people as a unit, such that we have 6 total units
 		example: x`How many ways are there to rearrange 8 people in a line such that
 3 of them are not next to one another?
 
-$${{}} \\cdot \\boxed{\\ast} \\cdot \\boxed{\\ast} \\cdot \\boxed{\\ast}
-\\cdot \\boxed{\\ast} \\cdot \\boxed{\\ast} \\cdot
+$${{}} \\circ \\; \\boxed{\\ast} \\; \\circ \\; \\boxed{\\ast} \\; \\circ \\; \\boxed{\\ast}
+\\; \\circ \\; \\boxed{\\ast} \\; \\circ \\; \\boxed{\\ast} \\; \\circ
 
 We rearrange the 5 other people first, and slot the remaining 3 in.
 
@@ -90,7 +90,7 @@ $r$ unique objects out of $n$.`,
 		example: undefined,
 	},
 	{
-		point: x`Use cases to handle choosing with identical objects.`,
+		point: x`Choosing with identical objects (via cases).`,
 		example: x`Find the number of 3-letter codewords that can
 be formed using letters from ABBBCCDEEE.
 
