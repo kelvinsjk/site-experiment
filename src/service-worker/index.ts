@@ -39,7 +39,6 @@ sw.addEventListener("activate", (event) => {
 });
 
 sw.addEventListener("fetch", (event) => {
-	console.log("v4");
 	// ignore POST requests etc
 	if (event.request.method !== "GET") return;
 
