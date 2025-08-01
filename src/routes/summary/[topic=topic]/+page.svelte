@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Djot } from "svelte-djot-math";
   import type { PageProps, Snapshot } from "./$types";
+  import { fly, scale, slide } from "svelte/transition";
 
   let { data }: PageProps = $props();
 
@@ -12,28 +13,56 @@
       idx = value;
     },
   };
+
+  const topicToTitle: Record<string, { title: string; shortTitle?: string }> = {
+    pnc: { title: "Permutations and Combinations", shortTitle: "P&C" },
+    probability: { title: "Probability" },
+  };
+  const title = $state(topicToTitle[data.topic].title);
+  const shortTitle = $state(topicToTitle[data.topic].shortTitle ?? title);
 </script>
 
-<h1>{data.topic}</h1>
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
+<nav>
+  <div class="title-container row">
+    <h1 class="shortTitle">
+      {shortTitle}
+    </h1>
+    <h1 class="longTitle">{title}</h1>
+  </div>
+</nav>
 <main>
-  <div class="techniques-container">
-    <h2>Key techniques</h2>
+  <article class="techniques-container">
+    <h2 id="techniques">Key techniques</h2>
     <div class="techniques-list-container">
       <ul>
         {#each data.summary as item, i}
           <li>
             <div class="point">
-              <button
-                class="square"
-                class:border={idx !== i}
-                onclick={() => {
-                  idx = i;
-                }}
-                aria-label="select point"
-                disabled={item.example === undefined}
-              >
-                <span></span>
-              </button>
+              {#if item.example === undefined}
+                <button
+                  class="square button"
+                  class:border={idx !== i}
+                  aria-label="select point"
+                  disabled={item.example === undefined}
+                >
+                  <span></span>
+                </button>
+              {:else}
+                <a
+                  class="square button"
+                  class:border={idx !== i}
+                  href="#example"
+                  onclick={() => {
+                    idx = i;
+                  }}
+                  aria-label="select point"
+                >
+                  <span></span>
+                </a>
+              {/if}
               <div class="point-text">
                 <Djot djot={item.point} />
               </div>
@@ -42,59 +71,105 @@
         {/each}
       </ul>
     </div>
-  </div>
-  <div class="example-container">
-    <h2>Example</h2>
-    <div class="example">
-      <h3 class="small">
-        <Djot djot={data.summary[idx].shortPoint ?? data.summary[idx].point} />
-      </h3>
-      <div class="example-text">
-        <Djot djot={data.summary[idx].example ?? ""} />
+  </article>
+  <article class="example-container" id="example">
+    {#key idx}
+      <div in:scale>
+        <h2>
+          {data.summary[idx].shortPoint}
+        </h2>
+        <div class="example">
+          <div class="example-text" in:scale>
+            <Djot djot={data.summary[idx].example ?? ""} />
+          </div>
+          <a href="#techniques" class="back-to-top">▲ Back to techniques </a>
+        </div>
       </div>
-    </div>
-  </div>
+    {/key}
+  </article>
 </main>
 
 <style>
+  nav {
+    background-color: var(--primary);
+    color: var(--secondary);
+    display: flex;
+    width: 100%;
+  }
   ul {
     list-style-type: none;
     display: grid;
     gap: 2rem;
+    padding-inline-start: 1rem;
   }
-  .point {
+  ul .point {
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 0.5rem;
     align-items: center;
   }
+  .point-text :global(mrow) {
+    border-radius: 0.75rem;
+  }
+  :global(mrow[notation="box"]) {
+    padding: 0.5rem 0.25rem;
+  }
   .point-text > :global(p) {
     margin-block: 0;
   }
-  main {
-    max-width: 80ch;
+  main,
+  .title-container {
+    width: min(100vw, 640px);
     margin-inline: auto;
   }
-  @media (min-width: 1200px) {
+  h1 {
+    padding-top: 1rem;
+    padding-inline: 1.5rem;
+  }
+  h1.longTitle {
+    display: none;
+  }
+  main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .back-to-top {
+    margin-block-start: 1rem;
+  }
+  @media (min-width: 800px) {
+    h1.shortTitle {
+      display: none;
+    }
+    h1.longTitle {
+      padding-left: 1.5rem;
+      display: block;
+      white-space: nowrap;
+      overflow-x: hidden;
+    }
+    .title-container,
     main {
-      max-width: none;
-      width: calc(160ch + 2rem);
-      display: grid;
-      grid-template-columns: auto 1fr;
+      width: min(100vw, 1280px);
+    }
+    main {
+      grid-template-columns: 1fr 1fr;
       gap: 2rem;
       justify-items: center;
     }
-    main > div {
+    main > article {
       max-width: 80ch;
       width: 100%;
+      margin-block-start: 0;
+    }
+    .back-to-top {
+      display: none;
     }
   }
-  h3.small,
   ul {
     margin-block-start: 1rem;
   }
   button:disabled {
-    background-color: #ccc;
+    background-color: #bbb;
     opacity: 0.5;
     cursor: not-allowed;
   }
@@ -104,9 +179,8 @@
   .example {
     max-width: max-content;
   }
-
   .example-text :global(.qn) {
-    display: relative;
+    position: relative;
     margin-left: 2.5rem;
     margin-top: 1.25rem;
   }
@@ -120,13 +194,13 @@
     left: 0;
     top: 0;
     transform: translate(-2.5rem, -0.25rem); /* controls the overlap */
-    z-index: -1; /* push it behind the text if needed */
     pointer-events: none;
   }
   .example-text :global(.ans) {
-    display: relative;
-    margin-left: 2.5rem;
+    position: relative;
     margin-top: 2.25rem;
+    padding-left: 2.25rem;
+    overflow: visible;
   }
   .example-text :global(.ans::before) {
     content: "A";
@@ -137,8 +211,13 @@
     position: absolute;
     left: 0;
     top: 0;
-    transform: translate(-2.5rem, -0.25rem); /* controls the overlap */
-    z-index: -1; /* push it behind the text if needed */
     pointer-events: none;
+  }
+  :global(ol[type="a"]) {
+    list-style-type: lower-alpha;
+  }
+  .example-text :global(table th),
+  .example-text :global(table td) {
+    border-block: 1px solid #00000055;
   }
 </style>

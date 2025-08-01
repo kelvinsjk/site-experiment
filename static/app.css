@@ -1,7 +1,26 @@
 body.light {
   --primary: goldenrod;
   --on-primary: black;
+  --secondary: midnightblue;
+  --on-secondary: white;
 }
 a:not(.button) {
   text-decoration: underline;
+}
+img {
+  max-width: 100%;
+  max-height: 50vh;
+  margin-inline: auto;
+  display: block;
+  padding-block: 1em;
+}
+*:has(> math.tml-display){
+  overflow-x: auto;
+  width: 100%;
+}
+math.tml-display {
+  padding-block: 1em;
+}
+html {
+  scroll-behavior: smooth;
 }
