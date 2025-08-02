@@ -4,7 +4,7 @@ function P(x: string) {
 	return `\\mathrm{P}\\left( ${x} \\right)`
 }
 
-export const probability: { point: string; example: string | undefined, shortPoint?: string }[] = [
+export const drv: { point: string; example: string | undefined, shortPoint?: string }[] = [
 	{
 		point: x`Using *P&C* to find probabilities.`,
 		shortPoint: "Using P&C to find probabilities",

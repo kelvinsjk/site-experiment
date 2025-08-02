@@ -2,7 +2,13 @@
   const click = () => {
     navigator.serviceWorker.controller?.postMessage({
       action: "cacheFiles",
-      files: ["/", "/1"],
+      files: [
+        "/",
+        "/summary",
+        "/summary/pnc",
+        "/summary/drv",
+        "/summary/probability",
+      ],
     });
   };
 </script>

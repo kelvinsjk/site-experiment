@@ -1,7 +1,8 @@
 <script lang="ts">
   import { Djot } from "svelte-djot-math";
   import type { PageProps, Snapshot } from "./$types";
-  import { fly, scale, slide } from "svelte/transition";
+  import { scale } from "svelte/transition";
+  import { topicToTitle } from "$lib/summary";
 
   let { data }: PageProps = $props();
 
@@ -14,12 +15,8 @@
     },
   };
 
-  const topicToTitle: Record<string, { title: string; shortTitle?: string }> = {
-    pnc: { title: "Permutations and Combinations", shortTitle: "P&C" },
-    probability: { title: "Probability" },
-  };
-  const title = $state(topicToTitle[data.topic].title);
-  const shortTitle = $state(topicToTitle[data.topic].shortTitle ?? title);
+  const title = $derived(topicToTitle[data.topic].title);
+  const shortTitle = $derived(topicToTitle[data.topic].shortTitle ?? title);
 </script>
 
 <svelte:head>
@@ -133,6 +130,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
+    padding: 1rem 2px;
   }
   .back-to-top {
     margin-block-start: 1rem;
@@ -152,6 +150,7 @@
       width: min(100vw, 1280px);
     }
     main {
+      padding: 0.5rem;
       grid-template-columns: 1fr 1fr;
       gap: 2rem;
       justify-items: center;
@@ -160,9 +159,6 @@
       max-width: 80ch;
       width: 100%;
       margin-block-start: 0;
-    }
-    .back-to-top {
-      display: none;
     }
   }
   ul {
