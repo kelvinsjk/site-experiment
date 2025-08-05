@@ -216,4 +216,8 @@
   .example-text :global(table td) {
     border-block: 1px solid #00000055;
   }
+  .example-container :global(table) {
+    inline-size: auto;
+    margin-inline: auto;
+  }
 </style>
