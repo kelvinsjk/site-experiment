@@ -1,6 +1,7 @@
 import { pnc } from "./21-pnc";
 import { probability } from "./22-probability";
 import { drv } from "./23-drv";
+import { binomial } from "./24-binomial";
 export const summaries = {
 	// stats
 	pnc,
