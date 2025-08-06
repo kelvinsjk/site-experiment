@@ -143,7 +143,7 @@ in the previous example.)
 #${"align*"}
 &${E("X^2")} \\\\
 &= \\sum x^2 ${P("X=x")} \\\\
-&= (0^2) \\left( \\frac{1}{30} \\right) + (1^2) \\left( \\frac{3}{10} \\right) + (2^2) \\left( \\frac{1}{2} \\right) + (3^2) \\left( \\frac{1}{6} \\right) \\\\
+&= 0^2 \\left( \\frac{1}{30} \\right) + 1^2 \\left( \\frac{3}{10} \\right) + 2^2 \\left( \\frac{1}{2} \\right) + 3^2 \\left( \\frac{1}{6} \\right) \\\\
 &= 3.8 
 
 #${"align*"}
@@ -197,4 +197,19 @@ m &= 6 \\; \\QED
 :::
 `,
 	},
+	{
+		point: `$ ${E("aX+b")} = a${E("X")}+b $.\\
+$ ${E("X \\pm Y")} = ${E("X")} \\pm ${E("Y")}.$`,
+		example: undefined
+	},
+	{
+		point: `$ ${Var("aX+b")} = a^2${Var("X")} $.`,
+		example: undefined
+	},
+	{
+		point: `If $X$ and $Y$ are independent, then\\
+$ ${Var("X\\pm Y")} = ${Var("X")} + ${Var("Y")} $.`,
+		example: undefined
+	}
+
 ];

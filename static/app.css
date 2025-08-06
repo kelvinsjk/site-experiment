@@ -24,3 +24,8 @@ math.tml-display {
 html {
   scroll-behavior: smooth;
 }
+
+math {
+  vertical-align: baseline;
+  // override beercss
+}

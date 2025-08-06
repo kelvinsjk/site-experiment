@@ -3,430 +3,363 @@ import { x } from "mathlifier";
 function P(x: string) {
 	return `\\mathrm{P}\\left( ${x} \\right)`
 }
+function E(x: string) {
+	return `\\mathrm{E}\\left( ${x} \\right)`
+}
+function Var(x: string) {
+	return `\\mathrm{Var}\\left( ${x} \\right)`
+}
 
 export const binomial: { point: string; example: string | undefined, shortPoint?: string }[] = [
 	{
-		point: x`Using *P&C* to find probabilities.`,
-		shortPoint: "Using P&C to find probabilities",
-		example: x`$${{}} \\boxed{${P("A")} = \\frac{\\text{Number of ways for } A \\text{ to occur}}{\\text{Total number of ways}} } 
+		point: x`Conditions and *assumptions*.`,
+		shortPoint: "Conditions and assumptions",
+		example: x`A discrete random variable $X$ has a binomial distribution if
+
+- There are a fixed number of "trials", $n$
+- For each "trial", there are only two possible outcomes: "success" (with probability $p$) and "failure" (with probability $1-p$)
+- The probability that a single "trial" is a "success" is the same for each "trial"
+- The event that a single "trial" is a "success" is independent of all other "trials"
+
+The final two conditions are typically assumptions that we make to use a binomial distribution.
 
 ### Example
 
+#### Assumptions for a binomial distribution
+
 :::qn
-A group of 10 students is made up of 6 boys and 4 girls.
-A team of 3 from the class.
-Find the probability that that there are exactly 2 boys on the team?
+Let $X$ denote the random variable of the number of apples that are sweet in a bag of 8 apples.
+State, in context, two assumptions needed to model $X$ by a binomial distribution.
 :::
 
 :::ans
-#${"align*"}
-& ${P('\\text{required}')} \\\\
-& = \\frac{{6 \\choose 2} \\times {4 \\choose 1}}{{10 \\choose 3}} \\\\
-& = \\frac{60}{120} \\\\
-&= \\frac{1}{2} \\; \\QED
-
+- The *probability* that an apple is sweet is the *same* for each apple $\\QED$
+- The *event* that an apple is sweet is *independent* of all other apples $\\QED$ 
 :::
 
+#### Common error
 
+"The probability that an apple is sweet is independent" is incorrect as
+independence is used to describe events and random variables, not probabilities.
 `
 	},
+		{
+		point: `$\\boxed{ X \\sim \\mathrm{B}(n,p) }$.`,
+		example: undefined
+	},
 	{
-		point: "Basic *notation*.",
-		shortPoint: "Basic notation",
-		example: x`### "Math-to-English" translation
-
-|Notation|Probability of |
-|---|---|
-| $ @${P("A \\cap B")} $ | $A$ *_and_* $B$ |
-| $ @${P("A'")} $ | *_Not_* $A$ |
-| $ @${P("A \\cup B")} $ | $A$ *_or_* $B$ (or both) |
-| $ @${P("A \\mid B")} $ | $ \\begin{matrix*}[l] A \\textit{\\textbf{ given }} B \\\\ A \\textit{\\textbf{ if }} B \\end{matrix*} $ |
-
-![complement](/svgs/s2a_A_Prime.png)
-![intersect](/svgs/s2b_A_Cap_B.png)
-![union](/svgs/s2c_A_Cup_B.png)
-
-### Some probability results
-
-- ${{}} 0 \\leq ${P("A")} \\leq 1
-for all events $A$.
-- ${{}} A \\subseteq B \\Rightarrow ${P("A")} \\leq ${P("B")}.
-- ${{}} A \\subset B \\Rightarrow ${P("A")} < ${P("B")}.
-
-![subset](/svgs/s2d_A_Subset_B.png)
+		point: `*Binompdf* $ \\boxed{ ${P("X=x")} }$.`,
+		shortPoint: "Binompdf",
+		example: x`We use \`binompdf\` on our calculator to calculate ${{}} \\boxed{${P("X=x")}}
 
 ### Example
 
 :::qn
-Let $A$ be the event that we score more than 70 marks for both
-a physics and math test. Let $B$ be the event that the total marks for the 
-physics and math test is more than 140. 
-
-State, with a reason, whether ${P("A")}
-or ${P("B")}
-is smaller?
+A bag contains 8 apples. Each apple has a $0.7$ probability of being sweet.
+Find the probability that there are exactly 6 apples in the bag that are sweet.
 :::
 
 :::ans
+Let $X$ denote the random variable of the number of apples that are sweet in a bag of 8 apples.
+$$ X \\sim \\mathrm{B}(8,0.7) $$
+Using the \`binompdf\` function on our calculator,
+$${{}} ${P("X=6")} = 0.296 \\text{ (to 3 s.f.)} \\; \\QED
 
-${P("A")} < ${P("B")}
-because event $A$ is a *proper subset* of event $B \\; \\QED$
-
-If event $A$ were to occur, then event $B$ would be true.
-
-However, the opposite is not true. 
-For example, we could score $80$ and $65$ marks for the tests,
-satisfying event $B$ but not $A$.
-
+:::
 `,
 	},
 	{
-		point: x`*Complement* ${{}} \\boxed{ ${P("A'")} = 1-${P("A")} }.`,
-		example: undefined,
-	},
-	{
-		point: x`*Union* ${{}} \\boxed{ ${P("A \\cup B")} = ${P("A")} + ${P("B")} - ${P("A \\cap B")} }.`,
-		example: undefined,
-	},
-	{
-		point: "*Tree* diagram.",
-		shortPoint: "Tree diagram",
-		example: x`A *tree diagram* is a very useful tool to help us
-visualize many problem situations. Having a tree diagram can
-help us recall when to multiply or add probabilities (via the
-multiplication and addition principles).
+		point: `*Binomcdf* $ \\boxed{ ${P("X \\leq x")} }$.`,
+		shortPoint: "Binomcdf",
+		example: x`We use \`binomcdf\` on our calculator to calculate ${{}} \\boxed{ ${P("X \\leq x")}}
+
+### Conversion to cdf form
+
+Other inequalities can be converted to cdf form, as shown in the following examples:
+
+- ${{}} ${P("X < 5")} = ${P("X \\leq 4")}
+- ${{}} ${P("X > 11")} = 1 - ${P("X \\leq 11")}
+- ${{}} ${P("X \\geq 16")} = 1 - ${P("X \\leq 15")}
+- ${{}} ${P("7 \\leq X < 13")} = ${P("X \\leq 12")} - ${P("X \\leq 6")}
 
 ### Example
 
 :::qn
-There is a probability of $0.6$
-that Daniel takes his parents' car to go to school.
-Otherwise, he takes a bus.
+A bag contains 8 apples. Each apple has a $0.7$ probability of being sweet.
+Find the probability that 
 
-If he takes his parents' car, he has a $0.01$ probability of being late.
-The conditional probability that Daniel is late for school given
-that he took the bus is $0.05$.
-
-Find the probability that
-
-(a) Daniel is late and took the bus.
-(b) Daniel arrives to school on time.
+(a) there are at most than 6 apples in the bag that are sweet
+(a) there are less than 4 apples in the bag that are sweet
+(b) there are more than 5 apples in the bag that are sweet
+(c) there are at least 3 apples in the bag that are sweet
 :::
 
-![tree](/svgs/s2e_tree_diagram.png)
-
 :::ans
-(a) By using the tree diagram,
-#${"align*"}
-& ${P("\\text{late} \\cap \\text{bus}")} \\\\
-&= 0.4 \\times 0.05 \\\\
-& = 0.02 \\; \\QED
+Let $X$ denote the random variable of the number of apples that are sweet in a bag of 8 apples.
+$$ X \\sim \\mathrm{B}(8,0.7) $$
+Using the \`binomcdf\` function on our calculator,
 
-(b) By considering the two cases from the tree diagram,
-#${"align*"}
-& ${P("\\text{on time}")} \\\\
-&= 0.6 \\times 0.99 + 0.4 \\times 0.95 \\\\
-& = 0.974 \\; \\QED
+(a) $$ @${P("X \\leq 6")} = 0.745 \\text{ (to 3 s.f.)} \\; \\QED $$
 
-:::`,
+(b) $$ \\begin{align*}
+& @${P("X < 4")} \\\\
+&= @${P("X \\leq 3")} \\\\
+&= 0.0580 \\text{ (to 3 s.f.)} \\; \\QED 
+\\end {align*} $$
+
+(c) $$ \\begin{align*}
+& @${P("X > 5")} \\\\
+&= 1 - @${P("X \\leq 5")} \\\\
+&= 0.552 \\text{ (to 3 s.f.)} \\; \\QED 
+\\end {align*} $$
+
+(d) $$ \\begin{align*}
+& @${P("X \\geq 3")} \\\\
+&= 1 - @${P("X \\leq 2")} \\\\
+&= 0.989 \\text{ (to 3 s.f.)} \\; \\QED 
+\\end {align*} $$
+:::
+`,
 	},
 	{
-		point: x`*Conditional* probability ${{}} \\boxed{  ${P("A \\mid B")} = \\frac{${P("A \\cap B")}}{${P("B")}} }. `,
-		shortPoint: "Conditional probability",
-		example: x`${{}} \\boxed{ ${P("A \\mid B") } = \\frac{${P("A \\cap B")}}{${P("B")}} }
+		point: x`"*Nested*" binomials.`,
+		shortPoint: "Nested binomials",
+		example: x`Binomials can be "*nested*" in other binomials, like in the following example
 
-
-### Example 1 
-
-#### Problem situation
+### Example 
 
 :::qn
-There is a probability of $0.6$
-that Daniel takes his parents' car to go to school.
-Otherwise, he takes a bus.
+A bag contains 8 apples. Each apple has a $0.7$ probability of being sweet.
+A bag is considered "excellent" if it contains at least 6 sweet apples.
 
-If he takes his parents' car, he has a $0.01$ probability of being late.
-The conditional probability that Daniel is late for school given
-that he took the bus is $0.05$.
-
-Find the probability that Daniel took the bus given that he is on time
-:::
-
-![tree](/svgs/s2e_tree_diagram.png)
-
-:::ans
-By using the conditional probability formula,
-#${"align*"}
-& ${P("\\text{bus} \\mid \\text{on time}")} \\\\
-&= \\frac{${P("\\text{bus} \\cap \\text{on time}")}}{${P("\\text{on time}")}} \\\\
-&= \\frac{0.4 \\times 0.05}{0.6 \\times 0.99 + 0.4 \\times 0.95} \\\\
-& = \\; \\QED
-
-:::
-
-### Example 2
-
-#### Algebraic approach
-
-:::qn
-Given that ${P("A")}=0.3
-and ${P("B \\mid A'")}=0.4,
-find ${P("A' \\cap B")}.
+A shop stocks 25 bags of apples. Find the probability that there are more than
+11 bags of "excellent" apples in the shop.
 :::
 
 :::ans
+Let $X$ denote the random variable of the number of apples that are sweet in a bag of 8 apples.
+$$ X \\sim \\mathrm{B}(8,0.7) $$
 #${"align*"}
-${P("B \\mid A'")} &= 0.4 \\\\
-\\frac{${P("B \\cap A'")}}{${P("A'")}} &= 0.4 \\\\
-\\frac{${P("B \\cap A'")}}{1 - ${P("A")}} &= 0.4 \\\\
-\\frac{${P("B \\cap A'")}}{1 - 0.3} &= 0.4 \\\\
-${P("A' \\cap B")} &= 0.28 \\; \\QED
+& ${P("X \\geq 6")} \\\\
+&= 1 - ${P("X \\leq 5")} \\\\
+&= 0.55177
+
+Let $Y$ denote the random variable of the number of bags that are excellent out of 25 bags.
+$$ Y \\sim \\mathrm{B}(25,0.55177) $$
+#${"align*"}
+& ${P("Y > 11")} \\\\
+&= 1 - ${P("Y \\leq 11")} \\\\
+&= 0.822 \\; \\QED
 
 :::
 `,
 	},
 	
 	{
-		point: x`*Venn* diagram.`,
-		shortPoint: x`Venn diagram`,
-		example: x`*Venn diagrams* help us visualize sets, and are
-especially useful for questions involving complements, unions and/or
-intersections.
-
-### Example
-
-:::qn
-Two events $A$ and $B$ are such that ${{}} {${P("A")}=0.7,}
-${{}} {${P("B")}=0.5,}
-and ${{}} {${P("A \\cap B'")}=0.38. }
-Find 
-
-(a) ${P("A \\cup B")}
-(b) ${P("A' \\mid B'")}
-:::
-
-
-:::ans
-We fill up a Venn diagram, starting from
-${{}} {${P("A \\cap B'")} = 0.38.}
-The rest of the regions can then be deduced
-using the information provided.
-
-![venn](/svgs/s2f_venn_example_1.png)
-
-In particular, the outside region of 0.12 is obtained by taking
-the total probability of $1$ minus everything inside $A \\cup B$
-
-(a) From the Venn diagram
-$$ \\begin{align*} 
-& @${P("A \\cup B")} 
-\\\\ &= @${P("A \\cap B'")} + @${P("B")}
-\\\\ &= 0.38 + 0.5
-\\\\ &= 0.88 \\; \\QED
-\\end{align*} $$
-
-(b) Using the conditional probability formula,
-$$ \\begin{align*}
-& @${P("A' \\mid B'")} \\\\
-&= \\frac{@${P("A' \\cap B'")}}{@${P("B'")}} \\\\
-&= \\frac{0.12}{1-0.5} \\\\
-&= 0.24 \\; \\QED
-\\end{align*}$$
-:::`,
-	},
-	{
-		point: '*Table* of outcomes.',
-		shortPoint: "Table of outcomes",
-		example: x`*Table of outcomes* can be very useful
-to visualize problem situations with two sub-events.
-
-### Example
-
-:::qn
-Two fair six-sided dice, one blue and one red, are thrown. Let $A$ denote
-the event that the blue die shows a $6.$ Let $B$ denote the event that the
-minimum of the two dice is $3.$
-
-(a) Find the probability that either $A$ or $B$ occurs (but not both).
-(b) Find ${P("B \\mid A'")}.
-:::
-
-![table](/svgs/s2g_table.svg)
-
-:::ans
-(a) The shaded regions on the table are the outcomes required. By
-counting the number shaded regions,
-$$ \\begin{align*}
-& @${P("\\text{required}")}
-\\\\ &= \\frac{11}{36} \\; \\QED
-\\end{align*} $$
-
-(b) The darker shaded region on the table represents $B \\cap A'$.
-$$ \\begin{align*}
-& @${(P("B \\mid A'"))}
-\\\\ &= \\frac{@${(P("B \\cap A'"))}}{@${(P("A'"))}}
-\\\\ &= \\frac{\\frac{6}{36}}{1-\\frac{1}{6}}
-\\\\ &= \\frac{1}{5} \\; \\QED
-\\end{align*} $$
-:::`,
-	},
-	{
-		point: x`*Mutually exclusive* events, ${{}} \\boxed{${P("A \\cap B")}=0}.`,
-		shortPoint: "Mutually exclusive events",
-		example: x`Two events are *mutually exclusive* if they
-cannot both occur at the same time.
-
-For mutually exclusive events, $ \\boxed{@${P("A \\cap B")} = 0} $
-
-![mutually exclusive](/svgs/s2h_mutually_exclusive.png)
-
-### Example
-
-For a single die roll, the event of rolling a 5 and the event of rolling
-an even number are mutually exclusive.`
-	},
-	{
-		point: x`*Independent* events, ${{}} \\boxed{${P("A \\cap B")}=${P("A")} ${P("B")}}.`, 
-		shortPoint: x`Independent events`,
-		example: x`Two events are *independent* if
-${{}} \\boxed{${P("A \\cap B")}=${P("A")} ${P("B")}}
-
-Alternatively, ${{}} { ${P("A \\mid B")} = ${P("A")} }.
+		point: x`GC *tables* and *graphs*.`,
+		shortPoint: x`Using a graphing calculator`,
+		example: x`A graphing calculator can be used to find unknown parameters such as $n$ and $p$.
+The *table* is useful for integer-valued unknowns while the *graph* is useful for real-valued unknowns.
 
 ### Example 1
 
-#### Using the independent formula
-		
+#### Using a table
+
 :::qn
-Two independent events $A$ and $B$ are such that
-${{}} {${P("A")}=0.7}
-and ${{}} {${P("B")}=0.5}
-Find ${{}} {${P("A \\cup B")}.}
+Given that $ Y \\sim \\mathrm{B}(n, 0.7) $
+and ${{}} { ${P("X \\leq 4")} < 0.1, }
+find the least possible value of $n$.
 :::
 
 :::ans
- #${"align*"}
-${P("A \\cup B")} &= ${P("A")} + ${P("B")} - ${P("A \\cap B")} \\\\
-	&= 0.7 + 0.5 - ${P("A")} ${P("B")} \\\\
-	&= 0.85 \\; \\QED
+We use the table function from our GC
+
+|:---:|:---:|
+| $n$ | $ @${P("X \\leq 4")}$ |
+| $8$ | $0.1941  > 0.1$ ❌ |
+| $9$ | $0.0988  < 0.1$ ✅ |
+| $10$ | $0.0473 < 0.1$ ✅ |
+
+Hence the least value of $n = 9 \\; \\QED$
 
 :::
 
 ### Example 2
 
-#### Proving independence
+#### Using a graph
 
 :::qn
-Two events $A$ and $B$ are such that
-${{}} {${P("A")}=0.7,}
-${{}} {${P("B")}=0.6}
-and ${{}} {${P("A \\cap B'")} = 0.28.}
-Determine whether $A$ and $B$ are independent.
+Given that $ Y \\sim \\mathrm{B}(8, p) $
+and ${{}} { ${P("X \\leq 1")} = 0.1, }
+find $p$.
 :::
 
 :::ans
- #${"align*"}
-${P("A \\cap B")} &= 0.7 - 0.28 \\\\
-	&= 0.42
+We plot \`binomcdf(8, X, 1)\` and \`y=0.1\`
+on our graphing calculator
 
-#${"align*"}
-${P("A")} ${P("B")} &= 0.7 \\times 0.6 \\\\
-&= 0.42
+Setting \`Xmin\`, \`Ymin\` to 0
+and \`Xmax\`, \`Ymax\` to 1
+in the \`window\` settings can help us see the graph better.
 
-Since ${P("A \\cap B")} = ${P("A")} ${P("B")},
-$A$ and $B$ are independent $\\QED$
+|:---:|:---:|
+| $n$ | $ @${P("X \\leq 4")}$ |
+| $8$ | $0.1941  > 0.1$ ❌ |
+| $9$ | $0.0988  < 0.1$ ✅ |
+| $10$ | $0.0473 < 0.1$ ✅ |
+
+Using the \`intersect\` solver,
+$$ p = 0.406 \\text{ (to 3 s.f.)} \\; \\QED $$
 
 :::
-
-### Discussion
-
-Note that mutually exclusive events and independence are two separate concepts.
-
-- Are you able to come up with two events that are independent but not mutually exclusive?
-- How about two events that mutually exclusive and not independent?
-- How about two events that are neither independent nor mutually exclusive?
-- What can be said if two events are both mutually exclusive and independent?`
+`,
 	},
 	{
-		point: x`Handling sequential events.`,
-		shortPoint: x`Handling sequential events`,
-		example: x`### Example
+		point: `*Mean* $\\boxed{ ${E("X")} = np }$ and *variance* $ \\boxed{ ${Var("X")} = np(1-p) }$ .`,
+		shortPoint: "Mean and variance",
+		example: x`The *mean* of a binomial distribution $ X \\sim \\mathrm{B}(n,p) $
+is given by ${{}} \\boxed{  ${E("X")} = np }
+and the *variance* is given by ${{}} \\boxed{  ${Var("X")} = np(1-p) }.
 
-:::qn
-A fair six-sided die is rolled three times.
-Find the probability that 
-
-(a) we obtain a "2" on one of the rolls,
-an odd number for one of the rolls,
-and obtain either "4" or "6" for one of the rolls?
-(b) we obtain a "2" on one of the rolls and an odd number
-for two of the rolls.
-:::
-
-:::ans
-
-We can use the multiplication principle to get the probability of
-${{}} { \\frac{1}{6} \\times \\frac{3}{6} \\times \\frac{2}{6} }.
-
-However, this probability assumes that the *first* roll is "2",
-the *second* roll is odd and the *third* roll is either "4" or "6".
-
-The required probability must include other arrangements (eg odd, then "4" or "6", then "2").
-We can use the addition principle to do that with different cases, but
-the factorial (to rearrange the 3 events) is a quick way to get the required probability.
-
-(a) We use $3!$ to rearrange the 3 outcomes
-$$ \\begin{align*}
-& @${P('\\text{required}')} \\\\
-& = \\frac{1}{6} \\times \\frac{3}{6} \\times \\frac{2}{6} \\times 3! \\\\
-& = \\frac{1}{6} \\; \\QED
-\\end{align*} $$
-
-(b) Since two of the outcomes are identical, we use $\\frac{3!}{2!}$
-$$ \\begin{align*}
-& @${P('\\text{required}')} \\\\
-& = \\frac{1}{6} \\times \\frac{3}{6} \\times \\frac{3}{6} \\times \\frac{3!}{2!} \\\\
-& = \\frac{1}{8} \\; \\QED
-\\end{align*} $$
-
-:::`,
-	},
-	{
-		point: x`Finding range of probabilities.`,
-		shortPoint: x`Finding range of probabilities`,
-		example: x`Using algebra on a Venn diagram can
-help us efficiently find the possible *range* of values a probability can take.
+Note: These formulas are provided in the formula booklet.
 
 ### Example
 
 :::qn
-Two events $A$ and $B$ are such that 
-${{}} { ${P("A")}=0.6 }
-and ${{}} { ${P("B")}=0.7 }
-Find the range of possible values of 
-${P("A \\cap B")}.
+A bag contains 8 apples. Each apple has a $0.7$ probability of being sweet. Find
+the mean and variance of the number of apples that are sweet in a bag.
 :::
 
 :::ans
-We let $x$ denote 
-${P("A \\cap B")}
-and fill up our Venn diagram in terms of $x$.
+Let $X$ denote the random variable of the number of apples that are sweet in a bag of 8 apples.
+$$ X \\sim \\mathrm{B}(8,0.7) $$
 
-![venn](/svgs/s2i_venn_diagram_A.png)
-
-Since all probabilities must be between 0 and 1, 
-$x$ must be at least 0.3 otherwise 
-${{}} {${P("A' \\cap B '")} = x - 0.3}
-will be negative.
-
-Similarly, $x$ must be at most 0.6 so that
-${{}} {${P("A' \\cap B")} = 0.6-x}
- will be non-negative.
-
-Hence ${{}} 0.3 \\leq ${P("A \\cap B")} \\leq 0.6 \\; \\QED
+#${"align*"}
+${E("X")} &= np
+\\\\ &= 8 (0.7) 
+\\\\ &= 5.6 \\; \\QED \\\\
+${Var("X")} &= np(1-p)
+\\\\ &= 8 (0.7)(1-0.7)
+\\\\ &= 1.68 \\; \\QED
 
 :::
 `,
-	}
+	},
+	{
+		point: `Binompdf *formula* $ \\boxed{ ${P("X=x")} = {n \\choose x} p^x (1-p)^{n-x} }$.  `,
+		shortPoint: "Binompdf formula",
+		example: x`To form algebraic equations from binomial distributions,
+we can use the *formula* ${{}} \\boxed{ ${P("X=x")} = {n \\choose x} p^x (1-p)^{n-x} }.
+
+Note: This formulas are provided in the formula booklet.
+
+### Example
+
+:::qn
+A bag contains 6 apples. Each apple has a probability $p$ of being sweet.
+Given that the probability that half of the apples in a bag are sweet is
+$\\frac{5}{16}$, form a equation in $p$ and solve for $p$.
+:::
+
+:::ans
+Let $X$ denote the random variable of the number of apples that are sweet in a bag of 6 apples.
+$$ X \\sim \\mathrm{B}(6,p) $$
+
+#${"align*"}
+${P("X=3")} &= \\frac{5}{16} \\\\
+{6 \\choose 3} p^3 (1-p)^{6-3} &= \\frac{5}{16} \\\\
+20 p^3 (1-p)^3 &= \\frac{5}{16} \\; \\QED \\\\
+\\Big( p(1-p) \\Big)^3 &= \\frac{1}{64} \\\\
+p(1-p) &= \\sqrt[3]{\\frac{1}{64}} \\\\
+p - p^2 &= \\frac{1}{4} \\\\
+4p - 4p^2 &= 1 \\\\
+4p^2 -4p + 1 &= 0 \\\\
+(2p-1)^2 &= 0 \\\\
+p &= \\frac{1}{2} \\; \\QED
+
+:::`
+
+	},
+	{
+		point: x`*Sketch* of a binomial distribution.`, 
+		shortPoint: x`Sketch of a binomial distribution`,
+		example: x`A *bar chart* can be used to sketch the probability distribution of
+a binomial distribution.
+
+For example, consider $X \\sim \\mathrm{B}(4,0.3)$
+
+Using \`binompdf\` and the table on our graphing calculator, we have
+
+|:---:|:---:|
+|$x$ | $@${P("X=x")}$|
+|0 | 0.2401|
+|1 | 0.4116|
+|2 | 0.2646|
+|3 | 0.0756|
+|4 | 0.0081|
+
+`
+	},
+	{
+		point: x`*Mode* of a binomial distribution.`,
+		shortPoint: x`Mode`,
+		example: x`The *mode* refers to the most likely/most probable outcome. It is the value of $x$
+for which ${P("X=x")}
+is the largest.
+
+### Example 1
+
+#### Using a table to determine the mode
+
+:::qn
+Let $X \\sim \\mathrm{B}(4,0.3)$. Find the mode of $X$.
+:::
+
+:::ans
+Using \`binompdf\` and the table on our graphing calculator, we have
+
+|:---:|:---:|
+|$x$ | $@${P("X=x")}$|
+|0 | 0.2401|
+|1 | 0.4116|
+|2 | 0.2646|
+|$\\dots$ | $\\dots$|
+
+Hence the mode is $1 \\; \\QED$
+:::
+
+## Algebraic approach
+
+If $x$ is the mode of a binomial distribution, then
+${{}} \\boxed{ ${P("X=x")} \\geq ${P("X=x+1")} }
+and ${{}} \\boxed{ ${P("X=x")} \\geq ${P("X=x-1")} }
+
+### Example 2
+
+:::qn
+Let $X \\sim \\mathrm{B}(4,p)$. Given that the mode of $X$ is 1, find
+the range of possible values of $p$.
+:::
+
+:::ans
+#${"align*"}
+${P("X=1")} &\\geq ${P("X=2")} \\\\
+{4 \\choose 1} p^1 (1-p)^{4-1} &\\geq {4 \\choose 2} p^2 (1-p)^{4-2} \\\\
+4 p(1-p)^3 &\\geq 6 p^2 (1-p)^2 \\\\
+2(1-p) &\\geq 3p \\\\
+2 - 2p &\\geq 3p \\\\
+p &\\leq \\frac{2}{5}
+
+#${"align*"}
+${P("X=1")} &\\geq ${P("X=0")} \\\\
+{4 \\choose 1} p^1 (1-p)^{4-1} &\\geq {4 \\choose 0} p^0 (1-p)^{4-0} \\\\
+4 p(1-p)^3 &\\geq (1-p)^4 \\\\
+4p &\\geq 1-p \\\\
+p &\\geq \\frac{1}{5}
+
+Combining the two,
+$$ \\frac{1}{5} \\leq p \\leq \\frac{2}{5} \\; \\QED $$
+:::
+`,
+	},
 ];
-// advanced venn diagram not covered

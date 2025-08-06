@@ -220,4 +220,9 @@
     inline-size: auto;
     margin-inline: auto;
   }
+  .example-container :global(code) {
+    padding: 0.5rem;
+    background-color: #e6e1e6;
+    border-radius: 0.5rem;
+  }
 </style>
