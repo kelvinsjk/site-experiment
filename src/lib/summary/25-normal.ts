@@ -10,31 +10,61 @@ function Var(x: string) {
 	return `\\mathrm{Var}\\left( ${x} \\right)`
 }
 
-export const binomial: { point: string; example: string | undefined, shortPoint?: string }[] = [
+export const normal: { point: string; example: string | undefined, shortPoint?: string }[] = [
 	{
-		point: x`Conditions and *assumptions*.`,
-		shortPoint: "Conditions and assumptions",
-		example: x`A discrete random variable $X$ has a binomial distribution if
+		point: x`Properties of a *normal* distribution.`,
+		shortPoint: "Properties of a normal distribution",
+		example: x`The *normal* distribution is an example of a continuous random variable.
 
-- There are a fixed number of "trials", $n$
-- For each "trial", there are only two possible outcomes: "success" (with probability $p$) and "failure" (with probability $1-p$)
-- The probability that a single "trial" is a "success" is the same for each "trial"
-- The event that a single "trial" is a "success" is independent of all other "trials"
+### Probability of equality
 
-The final two conditions are typically assumptions that we make to use a binomial distribution.
+For a continuous random variable $X$, ${P("X=a")} = 0
+for all real numbers $a$. This means that ${{}} {${P("X < a")} = ${P("X \\leq a")}.}
 
-### Example
+Discussion: compare and contrast this with the binomial distribution.
 
-#### Assumptions for a binomial distribution
+### Normal distribution parameters
+
+The mean $\\mu$ and the variance $\\sigma^2$ (or standard deviation $\\sigma$)
+are the *parameters* of a normal distribution. We present it as
+${{}} \\boxed{ X \\sim \\mathrm{N}\\left( \\mu, \\sigma^2 \\right) }
+
+### Properties
+
+- A normal distribution is *symmetrical* about its mean, $\\mu$.
+- "Almost all" values of $x$ are within 3 standard deviations of the mean.
+
+We visualize probabilities in a normal distribution as the *area* underneath the bell curve.
+
+### Example 1
+
+### Sketch of a normal distribution
 
 :::qn
-Let $X$ denote the random variable of the number of apples that are sweet in a bag of 8 apples.
-State, in context, two assumptions needed to model $X$ by a binomial distribution.
+Given that a random variable $X$ is normally distributed with mean $16$
+and standard deviation $3$, sketch the distribution of $X$.
+
+Shade also, the region on your sketch that represents ${P("X > 20")}.
 :::
 
 :::ans
-- The *probability* that an apple is sweet is the *same* for each apple $\\QED$
-- The *event* that an apple is sweet is *independent* of all other apples $\\QED$ 
+
+:::
+
+
+### Example 2 
+
+#### Situations where the normal distribution is not appropriate
+
+:::qn
+Let $X$ denote the random variable of the time it takes for a cafe to prepare
+an order. It is known that the mean is 9 minutes and the standard deviation is 4 minutes.
+
+Explain why a normal distribution is not appropriate to model $X$.
+:::
+
+:::ans
+If $X$ is normally distributed, we can use the "3-sigma" rule, 
 :::
 
 #### Common error
@@ -44,12 +74,12 @@ independence is used to describe events and random variables, not probabilities.
 `
 	},
 		{
-		point: `$\\boxed{ X \\sim \\mathrm{B}(n,p) }$.`,
+		point: ` $ \\boxed{X \\sim \\mathrm{N}\\left(\\mu, \\sigma^2 \\right)}$.`,
 		example: undefined
 	},
 	{
-		point: `*Binompdf* $ \\boxed{ ${P("X=x")} }$.`,
-		shortPoint: "Binompdf",
+		point: `*Normcdf* $ \\boxed{ ${P("a < X \\leq b")} }$.`,
+		shortPoint: "Normcdf",
 		example: x`We use \`binompdf\` on our calculator to calculate ${{}} \\boxed{${P("X=x")}}
 
 ### Example
@@ -69,8 +99,8 @@ $${{}} ${P("X=6")} = 0.296 \\text{ (to 3 s.f.)} \\; \\QED
 `,
 	},
 	{
-		point: `*Binomcdf* $ \\boxed{ ${P("X \\leq x")} }$.`,
-		shortPoint: "Binomcdf",
+		point: `*Invnorm* $ \\boxed{ ${P("X \\leq b")} = p }$.`,
+		shortPoint: "Invnorm",
 		example: x`We use \`binomcdf\` on our calculator to calculate ${{}} \\boxed{ ${P("X \\leq x")}}
 
 ### Conversion to cdf form
@@ -124,8 +154,8 @@ Using the \`binomcdf\` function on our calculator,
 `,
 	},
 	{
-		point: x`"*Nested*" binomials.`,
-		shortPoint: "Nested binomials",
+		point: x`*Standardization* $\\boxed{ Z = \\frac{X-\\mu}{\\sigma} }$.`,
+		shortPoint: "Standardization",
 		example: x`Binomials can be "*nested*" in other binomials, like in the following example
 
 ### Example 
@@ -156,10 +186,9 @@ $$ Y \\sim \\mathrm{B}(25,0.55177) $$
 :::
 `,
 	},
-	
 	{
-		point: x`GC *tables* and *graphs*.`,
-		shortPoint: x`Using a graphing calculator`,
+		point: x`*Sum* $\\boxed{ X + Y \\sim \\mathrm{N} \\left( \\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2 \\right) }$. `,
+		shortPoint: x`Sum of independent normal distributions`,
 		example: x`A graphing calculator can be used to find unknown parameters such as $n$ and $p$.
 The *table* is useful for integer-valued unknowns while the *graph* is useful for real-valued unknowns.
 
@@ -217,8 +246,8 @@ $$ p = 0.406 \\text{ (to 3 s.f.)} \\; \\QED $$
 `,
 	},
 	{
-		point: `*Mean* $\\boxed{ ${E("X")} = np }$ and *variance* $ \\boxed{ ${Var("X")} = np(1-p) }$ .`,
-		shortPoint: "Mean and variance",
+		point: x`*Difference* $\\boxed{ X - Y \\sim \\mathrm{N} \\left( \\mu_1 - \\mu_2, \\sigma_1^2 + \\sigma_2^2 \\right) }$. `,
+		shortPoint: x`Difference of independent normal distributions`,
 		example: x`The *mean* of a binomial distribution $ X \\sim \\mathrm{B}(n,p) $
 is given by ${{}} \\boxed{  ${E("X")} = np }
 and the *variance* is given by ${{}} \\boxed{  ${Var("X")} = np(1-p) }.
@@ -248,8 +277,8 @@ ${Var("X")} &= np(1-p)
 `,
 	},
 	{
-		point: `Binompdf *formula* $ \\boxed{ ${P("X=x")} = {n \\choose x} p^x (1-p)^{n-x} }$.  `,
-		shortPoint: "Binompdf formula",
+		point: x`*Multiple* $\\boxed{ aX \\sim \\mathrm{N} \\left( a\\mu, a^2 \\sigma^2 \\right) }$. `,
+		shortPoint: x`Multiple of a normal distribution`,
 		example: x`To form algebraic equations from binomial distributions,
 we can use the *formula* ${{}} \\boxed{ ${P("X=x")} = {n \\choose x} p^x (1-p)^{n-x} }.
 
@@ -283,8 +312,8 @@ p &= \\frac{1}{2} \\; \\QED
 
 	},
 	{
-		point: x`*Sketch* of a binomial distribution.`, 
-		shortPoint: x`Sketch of a binomial distribution`,
+		point: x`Sum, $\\boxed{nX}$ vs multiple $\\boxed{X_1 + \\dotsb + X_n}$.`,
+		shortPoint: x`Sum vs multiple`,
 		example: x`A *bar chart* can be used to sketch the probability distribution of
 a binomial distribution.
 
@@ -301,67 +330,5 @@ Using \`binompdf\` and the table on our graphing calculator, we have
 |4 | 0.0081|
 
 `
-	},
-	{
-		point: x`*Mode* of a binomial distribution.`,
-		shortPoint: x`Mode`,
-		example: x`The *mode* refers to the most likely/most probable outcome. It is the value of $x$
-for which ${P("X=x")}
-is the largest.
-
-### Example 1
-
-#### Using a table to determine the mode
-
-:::qn
-Let $X \\sim \\mathrm{B}(4,0.3)$. Find the mode of $X$.
-:::
-
-:::ans
-Using \`binompdf\` and the table on our graphing calculator, we have
-
-|:---:|:---:|
-|$x$ | $@${P("X=x")}$|
-|0 | 0.2401|
-|1 | 0.4116|
-|2 | 0.2646|
-|$\\dots$ | $\\dots$|
-
-The highest probability occurs when $x=1$. Hence the mode is $1 \\; \\QED$
-:::
-
-## Algebraic approach
-
-If $x$ is the mode of a binomial distribution, then
-${{}} \\boxed{ ${P("X=x")} \\geq ${P("X=x+1")} }
-and ${{}} \\boxed{ ${P("X=x")} \\geq ${P("X=x-1")} }
-
-### Example 2
-
-:::qn
-Let $X \\sim \\mathrm{B}(4,p)$. Given that the mode of $X$ is 1, find
-the range of possible values of $p$.
-:::
-
-:::ans
-#${"align*"}
-${P("X=1")} &\\geq ${P("X=2")} \\\\
-{4 \\choose 1} p^1 (1-p)^{4-1} &\\geq {4 \\choose 2} p^2 (1-p)^{4-2} \\\\
-4 p(1-p)^3 &\\geq 6 p^2 (1-p)^2 \\\\
-2(1-p) &\\geq 3p \\\\
-2 - 2p &\\geq 3p \\\\
-p &\\leq \\frac{2}{5}
-
-#${"align*"}
-${P("X=1")} &\\geq ${P("X=0")} \\\\
-{4 \\choose 1} p^1 (1-p)^{4-1} &\\geq {4 \\choose 0} p^0 (1-p)^{4-0} \\\\
-4 p(1-p)^3 &\\geq (1-p)^4 \\\\
-4p &\\geq 1-p \\\\
-p &\\geq \\frac{1}{5}
-
-Combining the two,
-$$ \\frac{1}{5} \\leq p \\leq \\frac{2}{5} \\; \\QED $$
-:::
-`,
 	},
 ];
