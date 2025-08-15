@@ -36,7 +36,7 @@ ${{}} \\boxed{ X \\sim \\mathrm{N}\\left( \\mu, \\sigma^2 \\right) }
 
 We visualize probabilities in a normal distribution as the *area* underneath the bell curve.
 
-### Example 1
+### Example
 
 ### Sketch of a normal distribution
 
@@ -50,27 +50,6 @@ Shade also, the region on your sketch that represents ${P("X > 20")}.
 :::ans
 
 :::
-
-
-### Example 2 
-
-#### Situations where the normal distribution is not appropriate
-
-:::qn
-Let $X$ denote the random variable of the time it takes for a cafe to prepare
-an order. It is known that the mean is 9 minutes and the standard deviation is 4 minutes.
-
-Explain why a normal distribution is not appropriate to model $X$.
-:::
-
-:::ans
-If $X$ is normally distributed, we can use the "3-sigma" rule, 
-:::
-
-#### Common error
-
-"The probability that an apple is sweet is independent" is incorrect as
-independence is used to describe events and random variables, not probabilities.
 `
 	},
 		{
@@ -80,108 +59,173 @@ independence is used to describe events and random variables, not probabilities.
 	{
 		point: `*Normcdf* $ \\boxed{ ${P("a < X \\leq b")} }$.`,
 		shortPoint: "Normcdf",
-		example: x`We use \`binompdf\` on our calculator to calculate ${{}} \\boxed{${P("X=x")}}
+		example: x`We use \`normcdf\` on our calculator to calculate probabilities associated with the
+normal distribution.
 
-### Example
+### Example 1
+
+#### Two-sided intervals
 
 :::qn
-A bag contains 8 apples. Each apple has a $0.7$ probability of being sweet.
-Find the probability that there are exactly 6 apples in the bag that are sweet.
+The mass of an apple is normally distributed with mean $150$ and standard deviation $20$.
+Find the probability that an apple weighs between $140$ and $170$ grams.
 :::
 
 :::ans
-Let $X$ denote the random variable of the number of apples that are sweet in a bag of 8 apples.
-$$ X \\sim \\mathrm{B}(8,0.7) $$
-Using the \`binompdf\` function on our calculator,
-$${{}} ${P("X=6")} = 0.296 \\text{ (to 3 s.f.)} \\; \\QED
+Let $X$ denote the random variable of the mass of an apple.
 
+$$ X \\sim \\mathrm{N} \\left( 150, 20^2 \\right) $$
+
+Using the \`normcdf\` function on our calculator,
+with \`μ=150\`, \`σ = 20\`,
+\`lower=140\` and \`upper=170\`,
+
+$${{}} ${P("140 < X < 170")} = 0.533 \\text{ (to 3 s.f.)} \\; \\QED
+
+*Remark*: Note that this probability is the same as ${{}} ${P("140 \\leq X \\leq 170")}
+:::
+
+### Example 2
+
+#### One-sided intervals
+
+:::qn
+The mass of an orange is normally distributed with mean $200$ and variance $450$.
+Find the probability that
+
+(a) an orange weighs less than $210$ grams,
+(b) an orange weighs at least $225$ grams.
+:::
+
+:::ans
+Let $X$ denote the random variable of the mass of an orange.
+
+$$ X \\sim \\mathrm{N} \\left( 200, 450 \\right) $$
+
+To calculate one-sided probabilities, we
+mimic "infinity" in our calculator with \`±1E99\`
+(representing $ {\\pm 10^{99}}$)
+
+We us the \`normcdf\` function on our calculator,
+with \`μ=200\`, \`σ:\` $\\sqrt{450}$.
+
+(a) Setting \`lower=-1E99\` and \`upper=210\`,
+$${{}} ${P("X < 210")} = 0.681 \\text{ (to 3 s.f.)} \\; \\QED
+
+(b) Setting \`lower=225\` and \`upper=1E99\`,
+$${{}} ${P("X \\geq 225")} = 0.119 \\text{ (to 3 s.f.)} \\; \\QED
+
+*Remark*: Note that we key the standard deviation $\\sqrt{450}$ into the calculator
+instead of the variance of $450$.
+:::
+
+### Example 3
+
+#### Situations where the normal distribution is not appropriate
+
+:::qn
+Let $X$ denote the random variable of the time it takes for a cafe to prepare
+an order. It is known that the mean is 6 minutes and the standard deviation is 5 minutes.
+
+Explain why a normal distribution is not appropriate to model $X$.
+:::
+
+:::ans
+If $X$ is normally distributed, we have
+
+$$ X \\sim \\mathrm{N} \\left( 9, 6^2 \\right) $$
+
+Then ${{}} {${P("X < 0")} = 0.067 }
+which suggests that a significant proportion of orders have negative preparation times.
+This is not possible so a normal distribution is not appropriate to model $X \\; \\QED$
 :::
 `,
 	},
 	{
 		point: `*Invnorm* $ \\boxed{ ${P("X \\leq b")} = p }$.`,
 		shortPoint: "Invnorm",
-		example: x`We use \`binomcdf\` on our calculator to calculate ${{}} \\boxed{ ${P("X \\leq x")}}
-
-### Conversion to cdf form
-
-Other inequalities can be converted to cdf form, as shown in the following examples:
-
-- ${{}} ${P("X < 5")} = ${P("X \\leq 4")}
-- ${{}} ${P("X > 11")} = 1 - ${P("X \\leq 11")}
-- ${{}} ${P("X \\geq 16")} = 1 - ${P("X \\leq 15")}
-- ${{}} ${P("7 \\leq X < 13")} = ${P("X \\leq 12")} - ${P("X \\leq 6")}
+		example: x`We use \`invnorm\` on our calculator for situations with *known probability*.
+For example, if $X$ is normally distributed with known mean and variance and we know that ${{}} { ${P("X < b")} = 0.6, }
+we can use the \`invnorm\` function to find the value of $b$.
 
 ### Example
 
-:::qn
-A bag contains 8 apples. Each apple has a $0.7$ probability of being sweet.
-Find the probability that 
+#### Left and right \`invnorm\`
 
-(a) there are at most than 6 apples in the bag that are sweet
-(a) there are less than 4 apples in the bag that are sweet
-(b) there are more than 5 apples in the bag that are sweet
-(c) there are at least 3 apples in the bag that are sweet
+:::qn
+The marks students score on a particular test can be modelled by a normal distribution
+with mean 55 and standard deviation 15.
+
+(a) A student is requires remedial classes if he or she scores less than $b$ marks. Given that
+$20\\%$ of students require remedial classes, what is the value of $b$?
+
+(b) What must a student score to be in the top $10\\%$?
+
 :::
 
 :::ans
-Let $X$ denote the random variable of the number of apples that are sweet in a bag of 8 apples.
+Let $X$ denote the random variable of the marks a randomly chosen student scores on the test.
 
-$$ X \\sim \\mathrm{B}(8,0.7) $$
+$$ X \\sim \\mathrm{N}\\left( 55,15^2\\right) $$
 
-Using the \`binomcdf\` function on our calculator,
+We use \`invnorm\` on our calculator with \`μ=55\`, \`σ = 15\`.
 
-(a) $$ @${P("X \\leq 6")} = 0.745 \\text{ (to 3 s.f.)} \\; \\QED $$
+(a) Using \`invnorm\` \`LEFT\` with \`area=0.2\`,
+#${'align*'}
+ ${P("X < b")} &= 0.2
+\\\\ b &= 42.4  \\text{ (to 3 s.f.)} \\; \\QED
 
-(b) $$ \\begin{align*}
-& @${P("X < 4")} \\\\
-&= @${P("X \\leq 3")} \\\\
-&= 0.0580 \\text{ (to 3 s.f.)} \\; \\QED 
-\\end {align*} $$
+(b) Let $a$ be the mark a student must score to be in the top $10\\%$.\\
+Using \`invnorm\` \`RIGHT\` with \`area=0.1\`,
+#${'align*'}
+ ${P("X \\geq a")} &= 0.1
+\\\\ a &= 74.2  \\text{ (to 3 s.f.)} \\; \\QED
 
-(c) $$ \\begin{align*}
-& @${P("X > 5")} \\\\
-&= 1 - @${P("X \\leq 5")} \\\\
-&= 0.552 \\text{ (to 3 s.f.)} \\; \\QED 
-\\end {align*} $$
-
-(d) $$ \\begin{align*}
-& @${P("X \\geq 3")} \\\\
-&= 1 - @${P("X \\leq 2")} \\\\
-&= 0.989 \\text{ (to 3 s.f.)} \\; \\QED 
-\\end {align*} $$
 :::
 `,
 	},
 	{
 		point: x`*Standardization* $\\boxed{ Z = \\frac{X-\\mu}{\\sigma} }$.`,
 		shortPoint: "Standardization",
-		example: x`Binomials can be "*nested*" in other binomials, like in the following example
+		example: x`The *standard normal* distribution, denoted by the letter $Z$ is
+the normal distribution with mean 0 and variance 1
+
+$$ Z \\sim \\mathrm{N} (0, 1) $$
+
+All other normal distributions ${{}} { X \\sim \\mathrm{N} \\left( \\mu, \\sigma^2 \\right) }
+can be converted to the standard normal with the following formula
+
+$$ \\boxed{Z = \\frac{X - \\mu}{\\sigma}} $$
+
+Conversion to the standard normal is a very useful strategy for questions with
+*unknown mean* and/or *unknown variance*.
 
 ### Example 
 
 :::qn
-A bag contains 8 apples. Each apple has a $0.7$ probability of being sweet.
-A bag is considered "excellent" if it contains at least 6 sweet apples.
-
-A shop stocks 25 bags of apples. Find the probability that there are more than
-11 bags of "excellent" apples in the shop.
+The mass of an orange is normally distributed with mean $\\mu$ and variance $450$.
+Given that $15\\%$ of oranges have mass less than $150$ grams, what is the value of $\\mu$?
 :::
 
 :::ans
-Let $X$ denote the random variable of the number of apples that are sweet in a bag of 8 apples.
-$$ X \\sim \\mathrm{B}(8,0.7) $$
-#${"align*"}
-& ${P("X \\geq 6")} \\\\
-&= 1 - ${P("X \\leq 5")} \\\\
-&= 0.55177
+Let $X$ denote the random variable of the mass of randomly chosen orange.
 
-Let $Y$ denote the random variable of the number of bags that are excellent out of 25 bags.
-$$ Y \\sim \\mathrm{B}(25,0.55177) $$
+$$ X \\sim \\mathrm{N}(\\mu,450) $$
+
+Applying the standardization formula,
+
 #${"align*"}
-& ${P("Y > 11")} \\\\
-&= 1 - ${P("Y \\leq 11")} \\\\
-&= 0.822 \\; \\QED
+${P("X < 150")} &= 0.15 \\\\
+${P("\\frac{X - \\mu}{\\sqrt{450}} < \\frac{150 - \\mu}{\\sqrt{450}} ")} &= 0.15 \\\\
+${P("Z < \\frac{150 - \\mu}{\\sqrt{450}}")} &= 0.35 
+
+where ${{}} { Z \\sim \\mathrm{N}(0,1) }.
+\\
+Using \`invnorm\` on our calculator, we get
+
+#${"align*"}
+\\frac{150 - \\mu}{\\sqrt{450}} &= -1.03643 \\\\
+\\mu = 172 \\text{ (to 3 s.f.)} \\; \\QED
 
 :::
 `,
@@ -189,89 +233,83 @@ $$ Y \\sim \\mathrm{B}(25,0.55177) $$
 	{
 		point: x`*Sum* $\\boxed{ X + Y \\sim \\mathrm{N} \\left( \\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2 \\right) }$. `,
 		shortPoint: x`Sum of independent normal distributions`,
-		example: x`A graphing calculator can be used to find unknown parameters such as $n$ and $p$.
-The *table* is useful for integer-valued unknowns while the *graph* is useful for real-valued unknowns.
+		example: x`If two normally distributed random variables $X$ and $Y$ are independent,
+then the sum ${{}} {X+Y}
+is also normally distributed with mean
+${{}} \\boxed{  ${E("X + Y")} = ${E("X")} + ${E("Y")} }
+and variance
+${{}} \\boxed{  ${Var("X + Y")} = ${Var("X")} + ${Var("Y")} }
 
-### Example 1
+$$\\boxed{ X + Y \\sim \\mathrm{N} \\left( \\mu_1 + \\mu_2, \\sigma_1^2 + \\sigma_2^2 \\right) }$$
 
-#### Using a table
+### Example
 
 :::qn
-Given that $ Y \\sim \\mathrm{B}(n, 0.7) $
-and ${{}} { ${P("X \\leq 4")} < 0.1, }
-find the least possible value of $n$.
+The mass of an apple is normally distributed with mean $150$ and standard deviation $20$.
+The mass of an orange is normally distributed with mean $200$ and variance $450$.
+Find the probability that an apple and an orange has total mass more than 400 grams.
+
+State an assumption used to answer this question.
 :::
 
 :::ans
-We use the table function from our GC
+Let $X$ and $Y$ denote the random variable of the mass of a randomly chosen apple and orange respectively.
 
-|:---:|:---:|
-| $n$ | $ @${P("X \\leq 4")}$ |
-| $8$ | $0.1941  > 0.1$ ❌ |
-| $9$ | $0.0988  < 0.1$ ✅ |
-| $10$ | $0.0473 < 0.1$ ✅ |
+#${"align*"}
+X &\\sim \\mathrm{N} \\left( 150, 20^2 \\right) \\\\
+Y &\\sim \\mathrm{N} \\left( 200, 450 \\right)
 
-Hence the least value of $n = 9 \\; \\QED$
+*Assumption*: $X$ and $Y$ are independent $\\QED$
 
-:::
+#${"align*"}
+X+Y &\\sim \\mathrm{N} \\left( 150+200, 20^2 + 450 \\right) \\\\
+X+Y &\\sim \\mathrm{N} \\left( 350, 850 \\right)
 
-### Example 2
+$${{}} ${P("X + Y > 400")} = 0.0432 \\text{ (to 3 s.f.)} \\; \\QED
 
-#### Using a graph
-
-:::qn
-Given that $ Y \\sim \\mathrm{B}(8, p) $
-and ${{}} { ${P("X \\leq 1")} = 0.1, }
-find $p$.
-:::
-
-:::ans
-We plot \`binomcdf(8, X, 1)\` and \`y=0.1\`
-on our graphing calculator
-
-Setting \`Xmin\`, \`Ymin\` to 0
-and \`Xmax\`, \`Ymax\` to 1
-in the \`window\` settings can help us see the graph better.
-
-|:---:|:---:|
-| $n$ | $ @${P("X \\leq 4")}$ |
-| $8$ | $0.1941  > 0.1$ ❌ |
-| $9$ | $0.0988  < 0.1$ ✅ |
-| $10$ | $0.0473 < 0.1$ ✅ |
-
-Using the \`intersect\` solver,
-$$ p = 0.406 \\text{ (to 3 s.f.)} \\; \\QED $$
-
+*Remark 1*: Note that we add the *variances* and not the standard deviation\\
+*Remark 2*: Remember to key $\\sigma = \\sqrt{850}$ in your calculator and not the variance of $850$.
 :::
 `,
 	},
 	{
 		point: x`*Difference* $\\boxed{ X - Y \\sim \\mathrm{N} \\left( \\mu_1 - \\mu_2, \\sigma_1^2 + \\sigma_2^2 \\right) }$. `,
 		shortPoint: x`Difference of independent normal distributions`,
-		example: x`The *mean* of a binomial distribution $ X \\sim \\mathrm{B}(n,p) $
-is given by ${{}} \\boxed{  ${E("X")} = np }
-and the *variance* is given by ${{}} \\boxed{  ${Var("X")} = np(1-p) }.
+		example: x`If two normally distributed random variables $X$ and $Y$ are independent,
+then the difference ${{}} {X-Y}
+is also normally distributed with mean
+${{}} \\boxed{  ${E("X - Y")} = ${E("X")} - ${E("Y")} }
+and variance
+${{}} \\boxed{  ${Var("X - Y")} = ${Var("X")} + ${Var("Y")} }
 
-Note: These formulas are provided in the formula booklet.
+$$\\boxed{ X - Y \\sim \\mathrm{N} \\left( \\mu_1 - \\mu_2, \\sigma_1^2 + \\sigma_2^2 \\right) }$$
+
+*Remark*: Note that we *add* the variances and do not subtract.
 
 ### Example
 
 :::qn
-A bag contains 8 apples. Each apple has a $0.7$ probability of being sweet. Find
-the mean and variance of the number of apples that are sweet in a bag.
+The mass of an apple is normally distributed with mean $150$ and standard deviation $20$.
+The mass of an orange is normally distributed with mean $200$ and variance $450$.
+It is assumed that the mass of an apple is independent of the mass of an orange.
+Find the probability that an apple weighs more than an orange.
 :::
 
 :::ans
-Let $X$ denote the random variable of the number of apples that are sweet in a bag of 8 apples.
-$$ X \\sim \\mathrm{B}(8,0.7) $$
+Let $X$ and $Y$ denote the random variable of the mass of a randomly chosen apple and orange respectively.
 
 #${"align*"}
-${E("X")} &= np
-\\\\ &= 8 (0.7) 
-\\\\ &= 5.6 \\; \\QED \\\\
-${Var("X")} &= np(1-p)
-\\\\ &= 8 (0.7)(1-0.7)
-\\\\ &= 1.68 \\; \\QED
+X &\\sim \\mathrm{N} \\left( 150, 20^2 \\right) \\\\
+Y &\\sim \\mathrm{N} \\left( 200, 450 \\right)
+
+#${"align*"}
+X-Y &\\sim \\mathrm{N} \\left( 150-200, 20^2 + 450 \\right) \\\\
+X-Y &\\sim \\mathrm{N} \\left( -50, 850 \\right)
+
+#${"align*"}
+& ${P("X > Y")} \\\\
+& = ${P("X - Y > 0")} \\\\
+&= 0.0432 \\text{ (to 3 s.f.)} \\; \\QED
 
 :::
 `,
@@ -279,56 +317,79 @@ ${Var("X")} &= np(1-p)
 	{
 		point: x`*Multiple* $\\boxed{ aX \\sim \\mathrm{N} \\left( a\\mu, a^2 \\sigma^2 \\right) }$. `,
 		shortPoint: x`Multiple of a normal distribution`,
-		example: x`To form algebraic equations from binomial distributions,
-we can use the *formula* ${{}} \\boxed{ ${P("X=x")} = {n \\choose x} p^x (1-p)^{n-x} }.
+		example: x`If $X$ is a normally distributed random variable,
+then any scalar multiple ${{}} {aX}
+is also normally distributed with mean
+${{}} \\boxed{  ${E("aX")} = a ${E("X")} }
+and variance
+${{}} \\boxed{  ${Var("aX")} = a^2 ${Var("X")} }
 
-Note: This formulas are provided in the formula booklet.
+$$\\boxed{ a X \\sim \\mathrm{N} \\left( a \\mu, a^2 \\sigma^2 \\right) }$$
+
+*Remark*: Note we use the *square* of the multiple for computing the variance.
 
 ### Example
 
 :::qn
-A bag contains 6 apples. Each apple has a probability $p$ of being sweet.
-Given that the probability that half of the apples in a bag are sweet is
-$\\frac{5}{16}$, form a equation in $p$ and solve for $p$.
+The mass of an orange is normally distributed with mean $200$ and variance $450$.
+Oranges are sold at 1.5 cents per gram.
+Find the probability that an orange costs more than ${{}} \\\$2.50.
 :::
 
 :::ans
-Let $X$ denote the random variable of the number of apples that are sweet in a bag of 6 apples.
-$$ X \\sim \\mathrm{B}(6,p) $$
+Let $X$ denote the random variable of the mass of a randomly chosen orange.
 
 #${"align*"}
-${P("X=3")} &= \\frac{5}{16} \\\\
-{6 \\choose 3} p^3 (1-p)^{6-3} &= \\frac{5}{16} \\\\
-20 p^3 (1-p)^3 &= \\frac{5}{16} \\; \\QED \\\\
-\\Big( p(1-p) \\Big)^3 &= \\frac{1}{64} \\\\
-p(1-p) &= \\sqrt[3]{\\frac{1}{64}} \\\\
-p - p^2 &= \\frac{1}{4} \\\\
-4p - 4p^2 &= 1 \\\\
-4p^2 -4p + 1 &= 0 \\\\
-(2p-1)^2 &= 0 \\\\
-p &= \\frac{1}{2} \\; \\QED
+Y  &\\sim \\mathrm{N} \\left( 200, 450 \\right) \\\\
+aY &\\sim \\mathrm{N} \\left( 1.5(200), 1.5^2 (450) \\right) \\\\
+aY &\\sim \\mathrm{N} \\left( 300, 1012.5 \\right) 
 
-:::`
+$${{}} ${P("aX > 250")} = 0.942 \\text{ (to 3 s.f.)} \\; \\QED
 
+:::
+`,
 	},
 	{
 		point: x`Sum, $\\boxed{nX}$ vs multiple $\\boxed{X_1 + \\dotsb + X_n}$.`,
 		shortPoint: x`Sum vs multiple`,
-		example: x`A *bar chart* can be used to sketch the probability distribution of
-a binomial distribution.
+		example: x`In statistics, the *sum* of two independent observations of $X$ (denoted by 
+${{}} {X_1 + X_2}
+) is different from *twice* of one observation of $X$ (denoted by $2X$).
+ Using the correct notation (and hence the correct mean and variance) is key to answering questions.
 
-For example, consider $X \\sim \\mathrm{B}(4,0.3)$
+#${'align*'}
+&\\text{Sum} &&\\boxed{ X_1 + \\dotsb + X_n } \\sim \\mathrm{N} \\left( n\\mu, n\\sigma^2 \\right) \\\\
+&\\text{Multiple}&& \\boxed{ nX } \\sim \\mathrm{N} \\left( n\\mu, n^2\\sigma^2 \\right)
 
-Using \`binompdf\` and the table on our graphing calculator, we have
+:::qn
+The mass of an apple is normally distributed with mean $150$ and standard deviation $20$.
+The mass of an orange is normally distributed with mean $200$ and variance $450$.
 
-|:---:|:---:|
-|$x$ | $@${P("X=x")}$|
-|0 | 0.2401|
-|1 | 0.4116|
-|2 | 0.2646|
-|3 | 0.0756|
-|4 | 0.0081|
+Find the probability that the total mass of 5 apples is more than 4 times the mass of an orange.
+:::
 
+:::ans
+Let $X$ and $Y$ denote the random variable of the mass of a randomly chosen apple and orange respectively.
+
+#${"align*"}
+X &\\sim \\mathrm{N} \\left( 150, 20^2 \\right) \\\\
+Y &\\sim \\mathrm{N} \\left( 200, 450 \\right)
+
+#${"gather*"}
+\\text{Let } A = X_1 + \\dotsb + X_5 \\sim \\mathrm{N} \\left( 5(150), 5(20^2) \\right) \\\\
+A \\sim \\mathrm{N} \\left( 750, 2000 \\right) \\\\
+\\text{Let } O = 4Y \\sim \\mathrm{N} \\left( 4(200), 4^2(450) \\right) \\\\
+O \\sim \\mathrm{N} \\left( 800, 7200 \\right)
+
+$$ A - O \\sim \\mathrm{N} \\left( -50, 9200 \\right) $$
+
+#${"align*"}
+& ${P("X_1 + \\dotsb + X_5 > 5Y")} \\\\
+& = ${P("A > O")} \\\\
+& = ${P("A - O > 0")} \\\\
+&= 0.301 \\text{ (to 3 s.f.)} \\; \\QED
+
+:::
 `
 	},
 ];
